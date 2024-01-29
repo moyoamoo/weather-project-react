@@ -5,6 +5,7 @@ import {
   formatVisibility,
   formatWindSpeed,
 } from "../utils";
+import { imgUrl } from "../config";
 import WeatherUnit from "./WeatherUnit";
 import { type } from "@testing-library/user-event/dist/type";
 
@@ -18,23 +19,28 @@ class Interface extends Component {
       feels_like: feelLike,
       temp_min: tempMin,
       temp_max: tempMax,
+      temp,
       pressure,
       humidity,
     } = this.props.weather.main;
 
     const { sunrise, sunset } = this.props.weather.sys;
 
-    const { description } = this.props.weather.weather[0];
+    const { description, icon } = this.props.weather.weather[0];
 
     const { speed } = this.props.weather.wind;
 
     return (
       <>
-        <div>
+        <div class="weather">
           <h1>{name}</h1>
           <p>Time Calculated: {formatTime(dt)}</p>
+          <p>Current Temp {toCelsius(temp)}</p>
           <p className="description">{description}</p>
-          {/* {Object.entries(this.props.weather).map((item) => {
+
+          <img src={imgUrl(icon)} />
+        </div>
+        {/* {Object.entries(this.props.weather).map((item) => {
            if (typeof item[1] !== "string"){
             return
            }
@@ -46,45 +52,44 @@ class Interface extends Component {
               />
             );
           })} */}
-          <div className="weatherUnitContainer">
-            <WeatherUnit
-              className="weatherUnit"
-              unit={"Feels Like"}
-              value={toCelsius(feelLike)}
-            />
-            <WeatherUnit
-              className="weatherUnit"
-              unit={"High/Low"}
-              value={toCelsius(tempMax)}
-              value2={toCelsius(tempMin)}
-            />
-            <WeatherUnit
-              className="weatherUnit"
-              unit={"Pressure"}
-              value={pressure}
-            />
-            <WeatherUnit
-              className="weatherUnit"
-              className2="unit"
-              unit={"Humidity"}
-              value={humidity}
-            />
-            <WeatherUnit
-              className="weatherUnit"
-              unit={"Wind Speed"}
-              value={formatWindSpeed(speed)}
-            />
-            <WeatherUnit
-              className="weatherUnit"
-              unit={"Sunrise"}
-              value={formatTime(sunrise)}
-            />
-            <WeatherUnit
-              className="weatherUnit"
-              unit={"Sunset"}
-              value={formatTime(sunset)}
-            />
-          </div>
+        <div className="weatherUnitContainer">
+          <WeatherUnit
+            className="weatherUnit"
+            unit={"Feels Like"}
+            value={toCelsius(feelLike)}
+          />
+          <WeatherUnit
+            className="weatherUnit"
+            unit={"High/Low"}
+            value={toCelsius(tempMax)}
+            value2={toCelsius(tempMin)}
+          />
+          <WeatherUnit
+            className="weatherUnit"
+            unit={"Pressure"}
+            value={pressure}
+          />
+          <WeatherUnit
+            className="weatherUnit"
+            className2="unit"
+            unit={"Humidity"}
+            value={humidity}
+          />
+          <WeatherUnit
+            className="weatherUnit"
+            unit={"Wind Speed"}
+            value={formatWindSpeed(speed)}
+          />
+          <WeatherUnit
+            className="weatherUnit"
+            unit={"Sunrise"}
+            value={formatTime(sunrise)}
+          />
+          <WeatherUnit
+            className="weatherUnit"
+            unit={"Sunset"}
+            value={formatTime(sunset)}
+          />
         </div>
       </>
     );

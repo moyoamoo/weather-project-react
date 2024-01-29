@@ -7,3 +7,8 @@ export function getForecastData(latitude, longitude, apiKey){
 export function getWeatherData(latitude, longitude, apiKey){
     return `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
 }
+
+export function imgUrl(code){
+    return `https://openweathermap.org/img/wn/${code}@2x.png`
+  
+}

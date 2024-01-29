@@ -1,5 +1,5 @@
 export function toCelsius(value) {
-  return Math.round(value - 273.15);
+  return `${Math.round(value - 273.15) }`;
 }
 
 export function formatTime(time) {
