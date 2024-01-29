@@ -1,26 +1,94 @@
-import React, { Component } from 'react';
-import { formatTime } from '../utils';
+import React, { Component } from "react";
+import {
+  formatTime,
+  toCelsius,
+  formatVisibility,
+  formatWindSpeed,
+} from "../utils";
+import WeatherUnit from "./WeatherUnit";
+import { type } from "@testing-library/user-event/dist/type";
 
+//write a script that would go through an object convert to camel case
+//charAt()
 class Interface extends Component {
+  render() {
+    const { name, dt } = this.props.weather;
 
+    const {
+      feels_like: feelLike,
+      temp_min: tempMin,
+      temp_max: tempMax,
+      pressure,
+      humidity,
+    } = this.props.weather.main;
 
-    render() {
-      const {name, time, feels_like, description, tempMin, tempMax, pressure, speed, humidity, sunrise, sunset} = this.props;
+    const { sunrise, sunset } = this.props.weather.sys;
 
-        return(
-      <>  <div>
-        <h1>{name}</h1>
-        <p>Time calculated {time}</p>
-        <div><span>Feels Like {feels_like}</span></div>
-        <div><span>{description}</span></div>
-        <div><span>High/Low {tempMax} {tempMin}</span></div>
-        <div><span>Presure {pressure}</span></div>
-        <div><span>Humidtity {humidity}</span></div>
-        <div><span>Wind Speed {speed}</span></div>
-        <div><span>Sunrise {sunrise}</span></div>
-        <div><span>Sunset{sunset}</span></div>
-        </div></>);
-    }
+    const { description } = this.props.weather.weather[0];
+
+    const { speed } = this.props.weather.wind;
+
+    return (
+      <>
+        <div>
+          <h1>{name}</h1>
+          <p>Time Calculated: {formatTime(dt)}</p>
+          <p className="description">{description}</p>
+          {/* {Object.entries(this.props.weather).map((item) => {
+           if (typeof item[1] !== "string"){
+            return
+           }
+           return (
+              <WeatherUnit
+                className="weatherUnit"
+                unit={item[0]}
+                value={item[1]}
+              />
+            );
+          })} */}
+          <div className="weatherUnitContainer">
+            <WeatherUnit
+              className="weatherUnit"
+              unit={"Feels Like"}
+              value={toCelsius(feelLike)}
+            />
+            <WeatherUnit
+              className="weatherUnit"
+              unit={"High/Low"}
+              value={toCelsius(tempMax)}
+              value2={toCelsius(tempMin)}
+            />
+            <WeatherUnit
+              className="weatherUnit"
+              unit={"Pressure"}
+              value={pressure}
+            />
+            <WeatherUnit
+              className="weatherUnit"
+              className2="unit"
+              unit={"Humidity"}
+              value={humidity}
+            />
+            <WeatherUnit
+              className="weatherUnit"
+              unit={"Wind Speed"}
+              value={formatWindSpeed(speed)}
+            />
+            <WeatherUnit
+              className="weatherUnit"
+              unit={"Sunrise"}
+              value={formatTime(sunrise)}
+            />
+            <WeatherUnit
+              className="weatherUnit"
+              unit={"Sunset"}
+              value={formatTime(sunset)}
+            />
+          </div>
+        </div>
+      </>
+    );
+  }
 }
- 
+
 export default Interface;
